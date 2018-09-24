@@ -16,7 +16,7 @@ Description: This package aims to facilitate the development and dissemination o
     proposed by Guojun Gan and Emiliano A Valdez (2017), 'Valuation of Large Variable Annuity 
     Portfolios: Monte Carlo Simulation and Synthetic Datasets', Dependence Modeling. Vol. 5, 
     pp. 354-374.
-Depends: R (>= 3.3.2)
+Depends: R (>= 3.3.0)
 License: GPL-2
 LazyData: true
 Suggests: knitr,
@@ -24,7 +24,7 @@ Suggests: knitr,
     testthat
 VignetteBuilder: knitr
 RoxygenNote: 6.1.0
-Imports: stats (>= 3.3.2),
-    utils (>= 3.3.2),
+Imports: stats (>= 3.3.0),
+    utils (>= 3.3.0),
     Rdpack (>= 0.4)
 RdMacros: Rdpack
