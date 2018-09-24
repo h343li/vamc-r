@@ -10,21 +10,22 @@ valuatePortfolio(inPortfolio, mortTable, fundScen, dT, df)
 \item{inPortfolio}{A dataframe containing numPolicy rows and 45 attributes
 of each VA policy.}
 
-\item{mortTable}{A dataframe with three columns of mortality table.}
+\item{mortTable}{A dataframe with three columns of doubles representing the
+mortality table.}
 
 \item{fundScen}{A numScen-by-numStep-by-numFund array of doubles of
-return factors (i.e., exp(mu\_t dt)) in each period.}
+return factors (i.e., exp(mu_t dt)) in each period.}
 
-\item{dT}{A double of stepsize in years; dT = 1/12 would be monthly.}
+\item{dT}{A double of stepsize in years; dT = 1 / 12 would be monthly.}
 
-\item{df}{A vector of risk-free discount rates of different tenor
+\item{df}{A vector of doubles of risk-free discount rates of different tenor
 (not forward rates), should have length being numStep.}
 }
 \value{
-A list of doubles of portVal, the sum of average discounted payoff
-  of the VAs in inPortfolio, portRC, the sum of average discounted risk
-  charges of the VAs in inPortfolio, and vectors of doubles of these average
-  discounted values for each policy.
+Outputs a list of doubles of portVal, the sum of average discounted
+  payoff of the VAs in inPortfolio, portRC, the sum of average discounted
+  risk charges of the VAs in inPortfolio, and vectors of doubles of these
+  average discounted values for each policy.
 }
 \description{
 Valuate a portfolio VA policies specified in each curPolicy of inPortfolio
@@ -32,7 +33,7 @@ based on the simulated fund scenarios fundScen.
 The time step length is specified in dT and the discount rate for each period
 is specified in df.
 }
-\section{Remark}{
+\section{Note}{
 
 We use a portfolio of 2 contracts with 1 scenarios in the example
 for illustration purposes.

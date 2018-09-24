@@ -8,16 +8,17 @@
 #' Stepsize is given is dT and interpolated discount factors are given in vDF.
 #' Random seed is optional for reproducibility.
 #'
-#' @param covMatrix A numIndex-by-numIndex matrix of covariances among numIndex
-#'   indices.
+#' @param covMatrix A numIndex-by-numIndex matrix of doubles of covariances
+#'   among numIndex indices.
 #' @param numScen An integer of number of scenario (sample paths) to be
 #'   simulated.
 #' @param numStep An integer of number of periods to be simulated.
 #' @param indexNames A vector of strings containing index names.
-#' @param dT A double of stepsize in years; dT = 1/12 would be monthly.
+#' @param dT A double of stepsize in years; dT = 1 / 12 would be monthly.
 #' @param forwardCurve A vector of doubles of discount rates at each time step.
 #' @param seed An integer of the deterministic seed for random sampling.
-#' @return A 3D array (numScen-by-numStep-by-numIndex) of index scenarios
+#' @return Outputs a 3D array (numScen-by-numStep-by-numIndex) of index
+#'   scenarios
 #' @examples
 #' genIndexScen(mCov, 100, 360, indexNames, 1 / 12, cForwardCurve, 1)
 #' @export
@@ -100,19 +101,20 @@ rFundMap <- function(indexNames, numFund){
 }
 
 # ------------------------------------------------------------------------------
-#' Calculate numScen-by-numIndex-by numStep fund scenarios based on given index
+#' Calculate numScen-by-numIndex-by-numStep fund scenarios based on given index
 #' scenarios indexScen and fund map fundMap that maps indices to funds.
 #'
 #' @param fundMap A numFund-by-numIndex matrix of doubles,
 #'   mapping indices to funds.
 #' @param indexScen A numScen-by-numStep-by-numIndex array of doubles,
 #'   index scenarios.
-#' @return A numScen-by-numStep-by-numFund array of doubles of fund scenarios.
+#' @return Outputs a numScen-by-numStep-by-numFund array of doubles of
+#'   fund scenarios.
 #' @examples
 #' genFundScen(fundMap, indexScen)
 #' @export
 genFundScen <- function(fundMap, indexScen){
-    # Calculate numScen-by-numIndex-by numStep fund scenarios based on
+    # Calculate numScen-by-numIndex-by-numStep fund scenarios based on
     # given index scenarios indexScen and fund map fundMap that maps indices
     # to funds
 

@@ -122,20 +122,15 @@ knitr::opts_chunk$set(
 ## Closing Remarks
 Though the primary purpose of this package is to valuate a portfolio of variable annuities, users can also use the _valuateOnePolicy()_ and the _ageOnePolicy()_ functions to perform fair market valuation on a single variable annuity as demonstrated below.
 
-### First 8 properties of the default DBRP
-```{r, echo=FALSE, results='asis'}
-# In this example, we will valuate testDBRP, a default data set for DBRP
-knitr::kable(testDBRP[1:8])
-# Again, we will arbitrarily use only the first scenarios to speed up the execution.
-```
-
 ### Valuation of one variable annuity
 ```{r}
-valuateOnePolicy(testDBRP, mortTable, fundScen[1:2, , ], 1 / 12, cForwardCurve)
+exPolicy <- VAPort[1, ]
+valuateOnePolicy(exPolicy, mortTable, fundScen[1:2, , ], 1 / 12, cForwardCurve)
 ```
 
 ### Aging of one variable annuity 
 ```{r}
 # Similarly, users can age this single policy before pricing it. We use the same target date and historical fund scenario as generated before
-ageOnePolicy(testDBRP, mortTable, histFundScen, histDates, dT = 1 / 12, targetDate, cForwardCurve)
+exPolicy <- VAPort[1, ]
+ageOnePolicy(exPolicy, mortTable, histFundScen, histDates, dT = 1 / 12, targetDate, cForwardCurve)
 ```

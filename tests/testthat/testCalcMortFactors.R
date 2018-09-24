@@ -5,27 +5,28 @@ histFundScen <- genFundScen(fundMap, histIdxScen)
 
 test_that("test for correctness of pq and p", {
   tmp <- tempfile()
-  expect_equal_to_reference(calcMortFactors(testDBRP, mortTable, dT = 1 / 12),
+  testPolicy <- VAPort[1, ]
+  expect_equal_to_reference(calcMortFactors(testPolicy, mortTable, dT = 1 / 12),
                             tmp)
 })
 
 test_that("test for error message when current date is prior to birth date", {
-  DBRP <- testDBRP
-  DBRP[1, "currentDate"] <- "1960-01-01"
-  expect_error(calcMortFactors(DBRP, mortTable, dT = 1 / 12),
+  testPolicy <- VAPort[1, ]
+  testPolicy[1, "currentDate"] <- "1960-01-01"
+  expect_error(calcMortFactors(testPolicy, mortTable, dT = 1 / 12),
                "Current date is prior to birth date.")
 })
 
 test_that("test for error message when current date is prior to birth date", {
-  DBRP <- testDBRP
-  DBRP[1, "matDate"] <- "1960-01-01"
-  expect_error(calcMortFactors(DBRP, mortTable, dT = 1 / 12),
+  testPolicy <- VAPort[1, ]
+  testPolicy[1, "matDate"] <- "1960-01-01"
+  expect_error(calcMortFactors(testPolicy, mortTable, dT = 1 / 12),
                "Maturity date is prior to birth date.")
 })
 
 test_that("test for error message when current date is prior to birth date", {
-  DBRP <- testDBRP
-  DBRP[1, "matDate"] <- "1999-01-01"
-  expect_error(calcMortFactors(DBRP, mortTable, dT = 1 / 12),
+  testPolicy <- VAPort[1, ]
+  testPolicy[1, "matDate"] <- "1999-01-01"
+  expect_error(calcMortFactors(testPolicy, mortTable, dT = 1 / 12),
                "Maturity date is prior to current date.")
 })

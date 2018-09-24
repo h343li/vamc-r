@@ -2,7 +2,7 @@
 % Please edit documentation in R/Step2_ScenarioGeneration.R
 \name{genFundScen}
 \alias{genFundScen}
-\title{Calculate numScen-by-numIndex-by numStep fund scenarios}
+\title{Calculate numScen-by-numIndex-by-numStep fund scenarios}
 \usage{
 genFundScen(fundMap, indexScen)
 }
@@ -14,10 +14,11 @@ mapping indices to funds.}
 index scenarios.}
 }
 \value{
-A numScen-by-numStep-by-numFund array of doubles of fund scenarios.
+Outputs a numScen-by-numStep-by-numFund array of doubles of
+  fund scenarios.
 }
 \description{
-Calculate numScen-by-numIndex-by numStep fund scenarios based on given index
+Calculate numScen-by-numIndex-by-numStep fund scenarios based on given index
 scenarios indexScen and fund map fundMap that maps indices to funds.
 }
 \examples{

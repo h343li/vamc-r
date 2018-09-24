@@ -11,26 +11,27 @@ agePortfolio(inPortfolio, mortTable, fundScen, scenDates, dT = 1/12,
 \item{inPortfolio}{A dataframe containing numPolicy rows and 45 attributes
 of each VA policy.}
 
-\item{mortTable}{A dataframe with three columns of mortality table.}
+\item{mortTable}{A dataframe with three columns of doubles representing the
+mortality table.}
 
 \item{fundScen}{A numScen-by-numStep-by-numFund array of doubles of
-return factors (i.e., exp(mu\_t dt)) in each period.}
+return factors (i.e., exp(mu_t dt)) in each period.}
 
-\item{scenDates}{A vector containing dates corresponding to each period in
-fundScen.}
+\item{scenDates}{A vector containing strings in the format of "YYYY-MM-DD"
+of dates corresponding to each period in fundScen.}
 
-\item{dT}{A double of stepsize in years; dT = 1/12 would be monthly.}
+\item{dT}{A double of stepsize in years; dT = 1 / 12 would be monthly.}
 
 \item{targetDate}{A string in the format of "YYYY-MM-DD" of valuation date of
 the portfolio.}
 
-\item{df}{A vector of risk-free discount rates of different tenor
+\item{df}{A vector of doubles of risk-free discount rates of different tenor
 (not forward rates), should have length being numStep.}
 }
 \value{
-A dataframe containing numPolicy rows and 45 attributes of each VA
-  policy, where currentDate, gbAmt, GMWBbalance, withdrawal, & fundValue
-  of each policy could be updated as a result of aging.
+Outputs a dataframe containing numPolicy rows and 45 attributes of
+  each VA policy, where currentDate, gbAmt, GMWBbalance, withdrawal,
+  & fundValue of each policy could be updated as a result of aging.
 }
 \description{
 Age a portfolio of VA policies specified in each inPolicy of inPortfolio from
@@ -39,15 +40,10 @@ given in fundScen. The time step length is specified in dT.
 Here we input a rather irrelevant parameter df to "hack" for a more flexible
 user-defined projection function.
 }
-\section{Warning}{
+\section{Note}{
 
 Target date MUST be PRIOR to the last date of historical scenario date,
-Current date MUST be LATER than the first date of historical scenario date
-}
-
-\section{Remark}{
-
-We use a portfolio of 2 contracts in the example for illustration purposes.
+Current date MUST be LATER than the first date of historical scenario date.
 }
 
 \examples{

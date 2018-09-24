@@ -2,7 +2,7 @@
 % Please edit documentation in R/Step4_MonteCarloValuation.R
 \name{calcMortFactors}
 \alias{calcMortFactors}
-\title{Calculates the mortality factors (t-1)px q(x+t-1) and tpx}
+\title{Calculates the mortality factors (t - 1)px q(x + t - 1) and tpx}
 \usage{
 calcMortFactors(inPolicy, mortTable, dT = 1/12)
 }
@@ -10,20 +10,22 @@ calcMortFactors(inPolicy, mortTable, dT = 1/12)
 \item{inPolicy}{A vector containing 45 attributes of a VA policy,
 usually a row of a VA portfolio dataframe.}
 
-\item{mortTable}{A dataframe with three columns of mortality table.}
+\item{mortTable}{A dataframe with three columns of doubles representing the
+mortality table.}
 
-\item{dT}{A double of stepsize in years; dT = 1/12 would be monthly.}
+\item{dT}{A double of stepsize in years; dT = 1 / 12 would be monthly.}
 }
 \value{
-A two-column data frame of doubles of mortFactors (t-1)px q(x+t-1)
-  and tpx.
+Outputs a two-column data frame of doubles of mortFactors (t - 1)px
+  q(x + t - 1) and tpx.
 }
 \description{
-Calculates the mortality factors (t-1)px q(x+t-1) and tpx required to
+Calculates the mortality factors (t - 1)px q(x + t - 1) and tpx required to
 valuate the inPolicy. Extract gender, age (birth date & current date),
 valuation date (current date), and maturity date from inPolicy, mortality
 rates from mortTable.
 }
 \examples{
-calcMortFactors(testDBRP, mortTable, dT = 1 / 12)
+exPolicy <- VAPort[1, ]
+calcMortFactors(exPolicy, mortTable, dT = 1 / 12)
 }

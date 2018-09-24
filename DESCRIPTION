@@ -2,19 +2,21 @@ Package: vamc
 Type: Package
 Title: A Monte Carlo Valuation Framework for Variable Annuities
 Version: 0.1.0
-Encoding: UTF-8
 Authors@R: c(
     person("Hengxin", "Li", email = "h343li@uwaterloo.ca", 
-    role = c("aut", "cph", "cre")),
-    person("Ben", "Feng", email = "ben.feng@uwaterloo.ca", 
     role = c("aut", "cph")),
+    person("Ben", "Feng", email = "ben.feng@uwaterloo.ca", 
+    role = c("aut", "cph", "cre")),
     person("GuoJun", "Gan", email = "Guojun.Gan@uconn.edu", 
     role = c("ctb")))
-Description: This package aims to facilitate the development and dissemination of research related the 
-    efficient valuation of large variable. This package implements a Monte Carlo simulation engine for 
-    valuing synthetic portfolios of variable annuities. The synthetic portfolios of variable annuities 
-    reflect realitic features of common annuity contracts in practice.
-Depends: R (>= 3.3.0)
+Description: This package aims to facilitate the development and dissemination of research related to 
+    the efficient valuation of a portfolio of large variable annuities. The package implements a Monte 
+    Carlo simulation engine for valuing synthetic portfolios of variable annuities, which reflect 
+    realistic features of common annuity contracts in practice. The main valuation methodology was 
+    proposed by Guojun Gan and Emiliano A Valdez (2017), 'Valuation of Large Variable Annuity 
+    Portfolios: Monte Carlo Simulation and Synthetic Datasets', Dependence Modeling. Vol. 5, 
+    pp. 354-374.
+Depends: R (>= 3.3.2)
 License: GPL-2
 LazyData: true
 Suggests: knitr,
@@ -22,7 +24,7 @@ Suggests: knitr,
     testthat
 VignetteBuilder: knitr
 RoxygenNote: 6.1.0
-Imports: stats (>= 3.3.0),
-    utils (>= 3.3.0),
+Imports: stats (>= 3.3.2),
+    utils (>= 3.3.2),
     Rdpack (>= 0.4)
 RdMacros: Rdpack

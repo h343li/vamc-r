@@ -35,13 +35,14 @@ buildCurve(swapRates, tenors, fixFreq, fixDCC, fltFreq, fltDCC, calendar,
 "Thirty360", "ACT360", "ACT365", or "ACTACT".}
 }
 \value{
-A data frame of discount dates and discount factors.
+Outputs a data frame of strings of discount dates and doubles of
+  discount factors.
 }
 \description{
 Bootstrap discount factors from a yield curve.
 }
 \examples{
-rate <- c(0.69, 0.77, 0.88, 1.01, 1.14, 1.38, 1.66, 2.15)*0.01
+rate <- c(0.69, 0.77, 0.88, 1.01, 1.14, 1.38, 1.66, 2.15) * 0.01
 tenor <- c(1, 2, 3, 4, 5, 7, 10, 30)
 fixFreq <- 6
 fixDCC <- "Thirty360"

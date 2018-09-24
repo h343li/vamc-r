@@ -2,7 +2,7 @@
 % Please edit documentation in R/Step4_MonteCarloValuation.R
 \name{valuateOnePolicy}
 \alias{valuateOnePolicy}
-\title{Valuate a VA policy specified in inPolicy}
+\title{Valuate a VA policy}
 \usage{
 valuateOnePolicy(inPolicy, mortTable, fundScen, dT, df)
 }
@@ -10,31 +10,33 @@ valuateOnePolicy(inPolicy, mortTable, fundScen, dT, df)
 \item{inPolicy}{A vector containing 45 attributes of a VA policy,
 usually a row of a VA portfolio dataframe.}
 
-\item{mortTable}{A dataframe with three columns of mortality table.}
+\item{mortTable}{A dataframe with three columns of doubles representing the
+mortality table.}
 
 \item{fundScen}{A numScen-by-numStep-by-numFund array of doubles of
-return factors (i.e., exp(mu\_t dt)) in each period.}
+return factors (i.e., exp(mu_t dt)) in each period.}
 
-\item{dT}{A double of stepsize in years; dT = 1/12 would be monthly.}
+\item{dT}{A double of stepsize in years; dT = 1 / 12 would be monthly.}
 
-\item{df}{A vector of risk-free discount rates of different tenor
+\item{df}{A vector of doubles of risk-free discount rates of different tenor
 (not forward rates), should have length being numStep.}
 }
 \value{
-A list of doubles of policyValue, the average discounted payoff
-  of the VA, and riskCharge, the average discounted risk charges.
+Outputs a list of doubles of policyValue, the average discounted
+  payoff of the VA, and riskCharge, the average discounted risk charges.
 }
 \description{
 Valuate a VA policy specified in inPolicy based on the simulated fund
 scenarios fundScen. The time step length is specified in dT and the
 discount rate for each period is specified in df.
 }
-\section{Remark}{
+\section{Note}{
 
 We use 1 scenarios from 100 simulated scenarios for illustration purposes
 }
 
 \examples{
 fundScen <- genFundScen(fundMap, indexScen)[1, , ]
-valuateOnePolicy(testDBRP, mortTable, fundScen, 1 / 12, cForwardCurve)
+exPolicy <- VAPort[1, ]
+valuateOnePolicy(exPolicy, mortTable, fundScen, 1 / 12, cForwardCurve)
 }

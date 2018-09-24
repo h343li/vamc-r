@@ -9,24 +9,26 @@
 #' @param issueRng A vector of two strings in 'YYYY-MM-DD' of issue date range.
 #' @param matRng A vector of two integers, range of policy maturity.
 #' @param acctValueRng A vector of two doubles, range of initial account values.
-#' @param femPct A fraction, percentage of female policyholders in the portfolio.
+#' @param femPct A double, percentage of female policyholders in the
+#'   portfolio.
 #' @param fundFee A vector of doubles, fees charged by each fund in bps.
 #' @param baseFee A double, base fee for all funds in bps.
 #' @param prodPct A vector of non-negative doubles, proportions of rider types.
 #' @param prodType A vector of strings, names of different rider types.
 #' @param riderFee A vector of doubles, rider fees for different riders in bps.
-#' @param rollUpRate A vector of doubles, roll up rates for different rider types
-#'   in bps.
+#' @param rollUpRate A vector of doubles, roll up rates for different rider
+#'   types in bps.
 #' @param withdrawalRate A vector of doubles, withdrawal rates for different
 #'   rider types in bps.
 #' @param numPolicy An integer, number of each type of policies to be generated.
-#' @return A data frame of discount dates and discount factors.
+#' @return Outputs a data frame of 45 columns of attributes in an annuity
+#'   contract.
 #' @examples
 #' genPortInception()
 #' genPortInception(c("1980-01-01", "1990-01-01"), c("2001-08-01", "2014-01-01"),
 #' c(15, 30), c(5e4, 5e5), 0.4, c(30, 50, 60, 80, 10, 38, 45, 55, 47, 46),
-#' 200, rep(1 / 4, 4), c("WBRP", "WBRU", "WBSU", "DBWB"), riderFee = c(25, 35, 35, 50),
-#' rep(5, 4), rep(5, 4), 100)
+#' 200, rep(1 / 4, 4), c("WBRP", "WBRU", "WBSU", "DBWB"),
+#' riderFee = c(25, 35, 35, 50), rep(5, 4), rep(5, 4), 100)
 #' @importFrom stats runif
 #' @export
 genPortInception <- function(birthDayRng = c("1950-01-01", "1980-01-01"),

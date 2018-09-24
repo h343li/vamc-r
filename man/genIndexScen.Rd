@@ -8,8 +8,8 @@ genIndexScen(covMatrix, numScen, numStep, indexNames, dT, forwardCurve,
   seed)
 }
 \arguments{
-\item{covMatrix}{A numIndex-by-numIndex matrix of covariances among numIndex
-indices.}
+\item{covMatrix}{A numIndex-by-numIndex matrix of doubles of covariances
+among numIndex indices.}
 
 \item{numScen}{An integer of number of scenario (sample paths) to be
 simulated.}
@@ -18,14 +18,15 @@ simulated.}
 
 \item{indexNames}{A vector of strings containing index names.}
 
-\item{dT}{A double of stepsize in years; dT = 1/12 would be monthly.}
+\item{dT}{A double of stepsize in years; dT = 1 / 12 would be monthly.}
 
 \item{forwardCurve}{A vector of doubles of discount rates at each time step.}
 
 \item{seed}{An integer of the deterministic seed for random sampling.}
 }
 \value{
-A 3D array (numScen-by-numStep-by-numIndex) of index scenarios
+Outputs a 3D array (numScen-by-numStep-by-numIndex) of index
+  scenarios
 }
 \description{
 Simulate a 3D array, numScen by numIndex by numStep, of Black-Scholes return

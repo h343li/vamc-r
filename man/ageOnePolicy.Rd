@@ -2,7 +2,7 @@
 % Please edit documentation in R/Step4_MonteCarloValuation.R
 \name{ageOnePolicy}
 \alias{ageOnePolicy}
-\title{Age a VA policy specified in inPolicy}
+\title{Age a VA policy}
 \usage{
 ageOnePolicy(inPolicy, mortTable, fundScen, scenDates, dT = 1/12,
   targetDate, df)
@@ -11,25 +11,26 @@ ageOnePolicy(inPolicy, mortTable, fundScen, scenDates, dT = 1/12,
 \item{inPolicy}{A vector containing 45 attributes of a VA policy,
 usually a row of a VA portfolio dataframe.}
 
-\item{mortTable}{A dataframe with three columns of mortality table.}
+\item{mortTable}{A dataframe with three columns of doubles representing the
+mortality table.}
 
 \item{fundScen}{A numScen-by-numStep-by-numFund array of doubles of
-return factors (i.e., exp(mu\_t dt)) in each period.}
+return factors (i.e., exp(mu_t dt)) in each period.}
 
-\item{scenDates}{A vector containing dates corresponding to each period in
-fundScen.}
+\item{scenDates}{A vector containing strings in the format of "YYYY-MM-DD"
+of dates corresponding to each period in fundScen.}
 
-\item{dT}{A double of stepsize in years; dT = 1/12 would be monthly.}
+\item{dT}{A double of stepsize in years; dT = 1 / 12 would be monthly.}
 
 \item{targetDate}{A string in the format of "YYYY-MM-DD" of valuation date
 of the portfolio.}
 
-\item{df}{A vector of risk-free discount rates of different tenor
+\item{df}{A vector of doubles of risk-free discount rates of different tenor
 (not forward rates), should have length being numStep.}
 }
 \value{
-A vector containing 45 attributes of a VA policy, where currentDate,
-  gbAmt, GMWBbalance, withdrawal, & fundValue could be updated
+Outputs a vector containing 45 attributes of a VA policy, where
+  currentDate, gbAmt, GMWBbalance, withdrawal, & fundValue could be updated
   as a result of aging. Usually a row of a VA portfolio dataframe.
 }
 \description{
@@ -39,27 +40,29 @@ The time step length is specified in dT.
 Here we input a rather irrelevant parameter df to "hack" for a more
 flexible user-defined projection function.
 }
-\section{Warning}{
+\section{Note}{
 
 Target date MUST be PRIOR to the last date of historical scenario date,
-Current date MUST be LATER than the first date of historical scenario date
+Current date MUST be LATER than the first date of historical scenario date.
 }
 
 \examples{
+exPolicy <- VAPort[1, ]
 targetDate <- "2016-01-01"
 histFundScen <- genFundScen(fundMap, histIdxScen)
-ageOnePolicy(testDBRP, mortTable, histFundScen, histDates, dT = 1 / 12,
+ageOnePolicy(exPolicy, mortTable, histFundScen, histDates, dT = 1 / 12,
 targetDate, cForwardCurve)
 \dontrun{
 targetDate <- "2001-01-01"
 histFundScen <- genFundScen(fundMap, histIdxScen)
-ageOnePolicy(testDBRP, mortTable, histFundScen, histDates, dT = 1 / 12,
+ageOnePolicy(exPolicy, mortTable, histFundScen, histDates, dT = 1 / 12,
 targetDate, cForwardCurve)
 }
 \dontrun{
-testDBRP[1, c("currentDate", "issueDate")] <- c("2001-01-01", "2001-01-01")
+exPolicy <- VAPort[1, ]
+exPolicy[1, c("currentDate", "issueDate")] <- c("2001-01-01", "2001-01-01")
 histFundScen <- genFundScen(fundMap, histIdxScen)
-ageOnePolicy(testDBRP, mortTable, histFundScen, histDates, dT = 1 / 12,
+ageOnePolicy(exPolicy, mortTable, histFundScen, histDates, dT = 1 / 12,
 targetDate, cForwardCurve)
 }
 }

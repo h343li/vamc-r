@@ -18,7 +18,7 @@ swapRate
 \description{
 A dataset containing US swap rates for various maturities.
 }
-\section{Remark}{
+\section{Note}{
 
 These swap rates were assessed on 2016-02-08
 }

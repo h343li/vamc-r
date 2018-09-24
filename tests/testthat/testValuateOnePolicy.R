@@ -3,7 +3,8 @@ library(vamc)
 
 fundScen <- genFundScen(fundMap, indexScen)[1:2, , ]
 test_that("test for the correctness of valuation", {
-  expect_equal(valuateOnePolicy(testDBRP, mortTable, fundScen,
+  testPolicy <- VAPort[1, ]
+  expect_equal(valuateOnePolicy(testPolicy, mortTable, fundScen,
                                 1 / 12, cForwardCurve),
                list(policyValue = 0, riskCharge = 454.1419), tolerance = 1)
 })

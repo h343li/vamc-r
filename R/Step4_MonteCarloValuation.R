@@ -23,19 +23,21 @@ readMortTable <- function(dirFileName, header = T){
 }
 
 # ------------------------------------------------------------------------------
-#' Calculates the mortality factors (t-1)px q(x+t-1) and tpx required to
+#' Calculates the mortality factors (t - 1)px q(x + t - 1) and tpx required to
 #' valuate the inPolicy. Extract gender, age (birth date & current date),
 #' valuation date (current date), and maturity date from inPolicy, mortality
 #' rates from mortTable.
 #'
 #' @param inPolicy A vector containing 45 attributes of a VA policy,
 #'   usually a row of a VA portfolio dataframe.
-#' @param mortTable A dataframe with three columns of mortality table.
-#' @param dT A double of stepsize in years; dT = 1/12 would be monthly.
-#' @return A two-column data frame of doubles of mortFactors (t-1)px q(x+t-1)
-#'   and tpx.
+#' @param mortTable A dataframe with three columns of doubles representing the
+#'   mortality table.
+#' @param dT A double of stepsize in years; dT = 1 / 12 would be monthly.
+#' @return Outputs a two-column data frame of doubles of mortFactors (t - 1)px
+#'   q(x + t - 1) and tpx.
 #' @examples
-#' calcMortFactors(testDBRP, mortTable, dT = 1 / 12)
+#' exPolicy <- VAPort[1, ]
+#' calcMortFactors(exPolicy, mortTable, dT = 1 / 12)
 #' @export
 calcMortFactors <- function(inPolicy, mortTable, dT = 1 / 12){
 
@@ -105,33 +107,8 @@ calcMortFactors <- function(inPolicy, mortTable, dT = 1 / 12){
 # 2. Each cash flow projection function follows calculations in
 # Appendix A of the paper
 # 3. User-defined VA policies should have an associated projectXXXX function
-#' Project a DBRP policy whose attributes are specified in inPolicy based on
-#' one fund scenario oneFundScen and steplength dT.
-#'
-#' @param inPolicy A vector containing 45 attributes of a VA policy,
-#'   usually a row of a VA portfolio dataframe.
-#' @param oneFundScen A numStep-by-numFund array of doubles of return factors,
-#'   i.e., exp(mu\_t dt) in each period.
-#' @param dT A double of stepsize in years; dT = 1/12 would be monthly.
-#' @param pq A vector of double of the mortality rate (t-1)px q(x+t-1).
-#' @param p A vector of double of the mortality rate tpx.
-#' @param df A vector of risk-free discount rates of different tenor
-#'   (not forward rates), should have length being numStep.
-#' @return A list of doubles of death benefit, living benefit, risk charge,
-#'   and a vector of updated 45 attributes of a VA policy.
-#' @examples
-#' fundScen <- genFundScen(fundMap, indexScen)
-#' mortFactors <- calcMortFactors(testDBRP, mortTable, dT = 1 / 12)
-#' pq <- mortFactors[, "pq"]
-#' p <- mortFactors[, "p"]
-#' projectDBRP(testDBRP, fundScen[1, 1:163, ], 1/12, pq, p, cForwardCurve)
-#' @seealso \code{\link{projectDBRU}} for DBRU projection,
-#'   \code{\link{projectDBSU}} for DBSU projection,
-#'   \code{\link{projectDBAB}} for DBAB projection,
-#'   \code{\link{projectDBIB}} for DBIB projection,
-#'   \code{\link{projectDBMB}} for DBMB projection,
-#'   \code{\link{projectDBWB}} for DBWB projection
-#' @export
+# Project a DBRP policy whose attributes are specified in inPolicy based on
+# one fund scenario oneFundScen and steplength dT.
 projectDBRP <- function(inPolicy, oneFundScen, dT = 1 / 12, pq, p, df){
   # projection will always start from the current date for numStep periods
   numStep <- dim(oneFundScen)[1]
@@ -190,24 +167,6 @@ projectDBRP <- function(inPolicy, oneFundScen, dT = 1 / 12, pq, p, df){
 }
 
 # ------------------------------------------------------------------------------
-#' Project a DBRU policy whose attributes are specified in inPolicy based on
-#' one fund scenario oneFundScen and steplength dT.
-#' @inheritParams projectDBRP
-#' @return A list of doubles of death benefit, living benefit, risk charge,
-#'   and a vector of updated 45 attributes of a VA policy.
-#' @examples
-#' fundScen <- genFundScen(fundMap, indexScen)
-#' mortFactors <- calcMortFactors(testDBRU, mortTable, dT = 1 / 12)
-#' pq <- mortFactors[, "pq"]
-#' p <- mortFactors[, "p"]
-#' projectDBRU(testDBRU, fundScen[1, 1:163, ], 1/12, pq, p, cForwardCurve)
-#' @seealso \code{\link{projectDBRP}} for DBRP projection,
-#'   \code{\link{projectDBSU}} for DBSU projection,
-#'   \code{\link{projectDBAB}} for DBAB projection,
-#'   \code{\link{projectDBIB}} for DBIB projection,
-#'   \code{\link{projectDBMB}} for DBMB projection,
-#'   \code{\link{projectDBWB}} for DBWB projection
-#' @export
 projectDBRU <- function(inPolicy, oneFundScen, dT = 1 / 12, pq, p, df){
   # projection will always start from the current date for numStep periods
   numStep <- dim(oneFundScen)[1]
@@ -268,24 +227,6 @@ projectDBRU <- function(inPolicy, oneFundScen, dT = 1 / 12, pq, p, df){
 }
 
 # ------------------------------------------------------------------------------
-#' Project a DBSU policy whose attributes are specified in inPolicy based on
-#' one fund scenario oneFundScen and steplength dT.
-#' @inheritParams projectDBRP
-#' @return A list of doubles of death benefit, living benefit, risk charge,
-#'   and a vector of updated 45 attributes of a VA policy.
-#' @examples
-#' fundScen <- genFundScen(fundMap, indexScen)
-#' mortFactors <- calcMortFactors(testDBSU, mortTable, dT = 1 / 12)
-#' pq <- mortFactors[, "pq"]
-#' p <- mortFactors[, "p"]
-#' projectDBSU(testDBSU, fundScen[1, 1:163, ], 1/12, pq, p, cForwardCurve)
-#' @seealso \code{\link{projectDBRP}} for DBRP projection,
-#'   \code{\link{projectDBRU}} for DBRU projection,
-#'   \code{\link{projectDBAB}} for DBAB projection,
-#'   \code{\link{projectDBIB}} for DBIB projection,
-#'   \code{\link{projectDBMB}} for DBMB projection,
-#'   \code{\link{projectDBWB}} for DBWB projection
-#' @export
 projectDBSU <- function(inPolicy, oneFundScen, dT = 1 / 12, pq, p, df){
   # projection will always start from the current date for numStep periods
   numStep <- dim(oneFundScen)[1]
@@ -346,21 +287,6 @@ projectDBSU <- function(inPolicy, oneFundScen, dT = 1 / 12, pq, p, df){
 }
 
 # ------------------------------------------------------------------------------
-#' Project a ABRP policy whose attributes are specified in inPolicy based on
-#' one fund scenario oneFundScen and steplength dT.
-#' @inheritParams projectDBRP
-#' @return A list of doubles of death benefit, living benefit, risk charge,
-#'   and a vector of updated 45 attributes of a VA policy.
-#' @examples
-#' fundScen <- genFundScen(fundMap, indexScen)
-#' mortFactors <- calcMortFactors(testABRP, mortTable, dT = 1 / 12)
-#' pq <- mortFactors[, "pq"]
-#' p <- mortFactors[, "p"]
-#' projectABRP(testABRP, fundScen[1, 1:163, ], 1/12, pq, p, cForwardCurve)
-#' @seealso \code{\link{projectABRU}} for ABRU projection,
-#'   \code{\link{projectABSU}} for ABSU projection,
-#'   \code{\link{projectDBAB}} for DBAB projection
-#' @export
 projectABRP <- function(inPolicy, oneFundScen, dT = 1 / 12, pq, p, df){
   # projection will always start from the current date for numStep periods
   numStep <- dim(oneFundScen)[1]
@@ -443,21 +369,6 @@ projectABRP <- function(inPolicy, oneFundScen, dT = 1 / 12, pq, p, df){
 }
 
 # ------------------------------------------------------------------------------
-#' Project a ABRU policy whose attributes are specified in inPolicy based on
-#' one fund scenario oneFundScen and steplength dT.
-#' @inheritParams projectDBRP
-#' @return A list of doubles of death benefit, living benefit, risk charge,
-#'   and a vector of updated 45 attributes of a VA policy.
-#' @examples
-#' fundScen <- genFundScen(fundMap, indexScen)
-#' mortFactors <- calcMortFactors(testABRU, mortTable, dT = 1 / 12)
-#' pq <- mortFactors[, "pq"]
-#' p <- mortFactors[, "p"]
-#' projectABRU(testABRU, fundScen[1, 1:163, ], 1/12, pq, p, cForwardCurve)
-#' @seealso \code{\link{projectABRP}} for ABRP projection,
-#'   \code{\link{projectABSU}} for ABSU projection,
-#'   \code{\link{projectDBAB}} for DBAB projection
-#' @export
 projectABRU <- function(inPolicy, oneFundScen, dT = 1 / 12, pq, p, df){
   # projection will always start from the current date for numStep periods
   numStep <- dim(oneFundScen)[1]
@@ -542,21 +453,6 @@ projectABRU <- function(inPolicy, oneFundScen, dT = 1 / 12, pq, p, df){
 }
 
 # ------------------------------------------------------------------------------
-#' Project a ABSU policy whose attributes are specified in inPolicy based on
-#' one fund scenario oneFundScen and steplength dT.
-#' @inheritParams projectDBRP
-#' @return A list of doubles of death benefit, living benefit, risk charge,
-#'   and a vector of updated 45 attributes of a VA policy.
-#' @examples
-#' fundScen <- genFundScen(fundMap, indexScen)
-#' mortFactors <- calcMortFactors(testABSU, mortTable, dT = 1 / 12)
-#' pq <- mortFactors[, "pq"]
-#' p <- mortFactors[, "p"]
-#' projectABSU(testABSU, fundScen[1, 1:163, ], 1/12, pq, p, cForwardCurve)
-#' @seealso \code{\link{projectABRP}} for ABRP projection,
-#'   \code{\link{projectABRU}} for ABRU projection,
-#'   \code{\link{projectDBAB}} for DBAB projection
-#' @export
 projectABSU <- function(inPolicy, oneFundScen, dT = 1 / 12, pq, p, df){
   # projection will always start from the current date for numStep periods
   numStep <- dim(oneFundScen)[1]
@@ -640,21 +536,6 @@ projectABSU <- function(inPolicy, oneFundScen, dT = 1 / 12, pq, p, df){
 }
 
 # ------------------------------------------------------------------------------
-#' Project a IBRP policy whose attributes are specified in inPolicy based on
-#' one fund scenario oneFundScen and steplength dT.
-#' @inheritParams projectDBRP
-#' @return A list of doubles of death benefit, living benefit, risk charge,
-#'   and a vector of updated 45 attributes of a VA policy.
-#' @examples
-#' fundScen <- genFundScen(fundMap, indexScen)
-#' mortFactors <- calcMortFactors(testIBRP, mortTable, dT = 1 / 12)
-#' pq <- mortFactors[, "pq"]
-#' p <- mortFactors[, "p"]
-#' projectIBRP(testIBRP, fundScen[1, 1:163, ], 1/12, pq, p, cForwardCurve)
-#' @seealso \code{\link{projectIBRU}} for IBRU projection,
-#'   \code{\link{projectIBSU}} for IBSU projection,
-#'   \code{\link{projectDBIB}} for DBIB projection
-#' @export
 projectIBRP <- function(inPolicy, oneFundScen, dT = 1 / 12, pq, p, df){
   # projection will always start from the current date for numStep periods
   numStep <- dim(oneFundScen)[1]
@@ -748,21 +629,6 @@ projectIBRP <- function(inPolicy, oneFundScen, dT = 1 / 12, pq, p, df){
 }
 
 # ------------------------------------------------------------------------------
-#' Project a IBRU policy whose attributes are specified in inPolicy based on
-#' one fund scenario oneFundScen and steplength dT.
-#' @inheritParams projectDBRP
-#' @return A list of doubles of death benefit, living benefit, risk charge,
-#'   and a vector of updated 45 attributes of a VA policy.
-#' @examples
-#' fundScen <- genFundScen(fundMap, indexScen)
-#' mortFactors <- calcMortFactors(testIBRU, mortTable, dT = 1 / 12)
-#' pq <- mortFactors[, "pq"]
-#' p <- mortFactors[, "p"]
-#' projectIBRU(testIBRU, fundScen[1, 1:163, ], 1/12, pq, p, cForwardCurve)
-#' @seealso \code{\link{projectIBRP}} for IBRP projection,
-#'   \code{\link{projectIBSU}} for IBSU projection,
-#'   \code{\link{projectDBIB}} for DBIB projection
-#' @export
 projectIBRU <- function(inPolicy, oneFundScen, dT = 1 / 12, pq, p, df){
   # projection will always start from the current date for numStep periods
   numStep <- dim(oneFundScen)[1]
@@ -858,21 +724,6 @@ projectIBRU <- function(inPolicy, oneFundScen, dT = 1 / 12, pq, p, df){
 }
 
 # ------------------------------------------------------------------------------
-#' Project a IBSU policy whose attributes are specified in inPolicy based on
-#' one fund scenario oneFundScen and steplength dT.
-#' @inheritParams projectDBRP
-#' @return A list of doubles of death benefit, living benefit, risk charge,
-#'   and a vector of updated 45 attributes of a VA policy.
-#' @examples
-#' fundScen <- genFundScen(fundMap, indexScen)
-#' mortFactors <- calcMortFactors(testIBSU, mortTable, dT = 1 / 12)
-#' pq <- mortFactors[, "pq"]
-#' p <- mortFactors[, "p"]
-#' projectIBSU(testIBSU, fundScen[1, 1:163, ], 1/12, pq, p, cForwardCurve)
-#' @seealso \code{\link{projectIBRP}} for IBRP projection,
-#'   \code{\link{projectIBRU}} for IBRU projection,
-#'   \code{\link{projectDBIB}} for DBIB projection
-#' @export
 projectIBSU <- function(inPolicy, oneFundScen, dT = 1 / 12, pq, p, df){
   # projection will always start from the current date for numStep periods
   numStep <- dim(oneFundScen)[1]
@@ -967,21 +818,6 @@ projectIBSU <- function(inPolicy, oneFundScen, dT = 1 / 12, pq, p, df){
 }
 
 # ------------------------------------------------------------------------------
-#' Project a MBRP policy whose attributes are specified in inPolicy based on
-#' one fund scenario oneFundScen and steplength dT.
-#' @inheritParams projectDBRP
-#' @return A list of doubles of death benefit, living benefit, risk charge,
-#'   and a vector of updated 45 attributes of a VA policy.
-#' @examples
-#' fundScen <- genFundScen(fundMap, indexScen)
-#' mortFactors <- calcMortFactors(testMBRP, mortTable, dT = 1 / 12)
-#' pq <- mortFactors[, "pq"]
-#' p <- mortFactors[, "p"]
-#' projectMBRP(testMBRP, fundScen[1, 1:163, ], 1/12, pq, p, cForwardCurve)
-#' @seealso \code{\link{projectMBRU}} for MBRU projection,
-#'   \code{\link{projectMBSU}} for MBSU projection,
-#'   \code{\link{projectDBMB}} for DBMB projection
-#' @export
 projectMBRP <- function(inPolicy, oneFundScen, dT = 1 / 12, pq, p, df){
   # projection will always start from the current date for numStep periods
   numStep <- dim(oneFundScen)[1]
@@ -1046,21 +882,6 @@ projectMBRP <- function(inPolicy, oneFundScen, dT = 1 / 12, pq, p, df){
 }
 
 # ------------------------------------------------------------------------------
-#' Project a MBRU policy whose attributes are specified in inPolicy based on
-#' one fund scenario oneFundScen and steplength dT.
-#' @inheritParams projectDBRP
-#' @return A list of doubles of death benefit, living benefit, risk charge,
-#'   and a vector of updated 45 attributes of a VA policy.
-#' @examples
-#' fundScen <- genFundScen(fundMap, indexScen)
-#' mortFactors <- calcMortFactors(testMBRU, mortTable, dT = 1 / 12)
-#' pq <- mortFactors[, "pq"]
-#' p <- mortFactors[, "p"]
-#' projectMBRU(testMBRU, fundScen[1, 1:163, ], 1/12, pq, p, cForwardCurve)
-#' @seealso \code{\link{projectMBRP}} for MBRP projection,
-#'   \code{\link{projectMBSU}} for MBSU projection,
-#'   \code{\link{projectDBMB}} for DBMB projection
-#' @export
 projectMBRU <- function(inPolicy, oneFundScen, dT = 1 / 12, pq, p, df){
   # projection will always start from the current date for numStep periods
   numStep <- dim(oneFundScen)[1]
@@ -1127,21 +948,6 @@ projectMBRU <- function(inPolicy, oneFundScen, dT = 1 / 12, pq, p, df){
 }
 
 # ------------------------------------------------------------------------------
-#' Project a MBSU policy whose attributes are specified in inPolicy based on
-#' one fund scenario oneFundScen and steplength dT.
-#' @inheritParams projectDBRP
-#' @return A list of doubles of death benefit, living benefit, risk charge,
-#'   and a vector of updated 45 attributes of a VA policy.
-#' @examples
-#' fundScen <- genFundScen(fundMap, indexScen)
-#' mortFactors <- calcMortFactors(testMBSU, mortTable, dT = 1 / 12)
-#' pq <- mortFactors[, "pq"]
-#' p <- mortFactors[, "p"]
-#' projectMBSU(testMBSU, fundScen[1, 1:163, ], 1/12, pq, p, cForwardCurve)
-#' @seealso \code{\link{projectMBRP}} for MBRP projection,
-#'   \code{\link{projectMBRU}} for MBRU projection,
-#'   \code{\link{projectDBMB}} for DBMB projection
-#' @export
 projectMBSU <- function(inPolicy, oneFundScen, dT = 1 / 12, pq, p, df){
   # projection will always start from the current date for numStep periods
   numStep <- dim(oneFundScen)[1]
@@ -1207,21 +1013,6 @@ projectMBSU <- function(inPolicy, oneFundScen, dT = 1 / 12, pq, p, df){
 }
 
 # ------------------------------------------------------------------------------
-#' Project a WBRP policy whose attributes are specified in inPolicy based on
-#' one fund scenario oneFundScen and steplength dT.
-#' @inheritParams projectDBRP
-#' @return A list of doubles of death benefit, living benefit, risk charge,
-#'   and a vector of updated 45 attributes of a VA policy.
-#' @examples
-#' fundScen <- genFundScen(fundMap, indexScen)
-#' mortFactors <- calcMortFactors(testWBRP, mortTable, dT = 1 / 12)
-#' pq <- mortFactors[, "pq"]
-#' p <- mortFactors[, "p"]
-#' projectWBRP(testWBRP, fundScen[1, 1:163, ], 1/12, pq, p, cForwardCurve)
-#' @seealso \code{\link{projectWBRU}} for WBRU projection,
-#'   \code{\link{projectWBSU}} for WBSU projection,
-#'   \code{\link{projectDBWB}} for DBWB projection
-#' @export
 projectWBRP <- function(inPolicy, oneFundScen, dT = 1 / 12, pq, p, df){
   # projection will always start from the current date for numStep periods
   numStep <- dim(oneFundScen)[1]
@@ -1297,21 +1088,6 @@ projectWBRP <- function(inPolicy, oneFundScen, dT = 1 / 12, pq, p, df){
               outPolicy = inPolicy))
 }
 # ------------------------------------------------------------------------------
-#' Project a WBRU policy whose attributes are specified in inPolicy based on
-#' one fund scenario oneFundScen and steplength dT.
-#' @inheritParams projectDBRP
-#' @return A list of doubles of death benefit, living benefit, risk charge,
-#'   and a vector of updated 45 attributes of a VA policy.
-#' @examples
-#' fundScen <- genFundScen(fundMap, indexScen)
-#' mortFactors <- calcMortFactors(testWBRU, mortTable, dT = 1 / 12)
-#' pq <- mortFactors[, "pq"]
-#' p <- mortFactors[, "p"]
-#' projectWBRU(testWBRU, fundScen[1, 1:163, ], 1/12, pq, p, cForwardCurve)
-#' @seealso \code{\link{projectWBRP}} for WBRP projection,
-#'   \code{\link{projectWBSU}} for WBSU projection,
-#'   \code{\link{projectDBWB}} for DBWB projection
-#' @export
 projectWBRU <- function(inPolicy, oneFundScen, dT = 1 / 12, pq, p, df){
   # projection will always start from the current date for numStep periods
   numStep <- dim(oneFundScen)[1]
@@ -1390,21 +1166,6 @@ projectWBRU <- function(inPolicy, oneFundScen, dT = 1 / 12, pq, p, df){
 }
 
 # ------------------------------------------------------------------------------
-#' Project a WBSU policy whose attributes are specified in inPolicy based on
-#' one fund scenario oneFundScen and steplength dT.
-#' @inheritParams projectDBRP
-#' @return A list of doubles of death benefit, living benefit, risk charge,
-#'   and a vector of updated 45 attributes of a VA policy.
-#' @examples
-#' fundScen <- genFundScen(fundMap, indexScen)
-#' mortFactors <- calcMortFactors(testWBSU, mortTable, dT = 1 / 12)
-#' pq <- mortFactors[, "pq"]
-#' p <- mortFactors[, "p"]
-#' projectWBSU(testWBSU, fundScen[1, 1:163, ], 1/12, pq, p, cForwardCurve)
-#' @seealso \code{\link{projectWBRP}} for WBRP projection,
-#'   \code{\link{projectWBRU}} for WBRU projection,
-#'   \code{\link{projectDBWB}} for DBWB projection
-#' @export
 projectWBSU <- function(inPolicy, oneFundScen, dT = 1 / 12, pq, p, df){
   # projection will always start from the current date for numStep periods
   numStep <- dim(oneFundScen)[1]
@@ -1482,24 +1243,6 @@ projectWBSU <- function(inPolicy, oneFundScen, dT = 1 / 12, pq, p, df){
 }
 
 # ------------------------------------------------------------------------------
-#' Project a DBAB policy whose attributes are specified in inPolicy based on
-#' one fund scenario oneFundScen and steplength dT.
-#' @inheritParams projectDBRP
-#' @return A list of doubles of death benefit, living benefit, risk charge,
-#'   and a vector of updated 45 attributes of a VA policy.
-#' @examples
-#' fundScen <- genFundScen(fundMap, indexScen)
-#' mortFactors <- calcMortFactors(testDBAB, mortTable, dT = 1 / 12)
-#' pq <- mortFactors[, "pq"]
-#' p <- mortFactors[, "p"]
-#' projectDBAB(testDBAB, fundScen[1, 1:163, ], 1/12, pq, p, cForwardCurve)
-#' @seealso \code{\link{projectDBRP}} for DBRP projection,
-#'   \code{\link{projectDBRU}} for DBRU projection,
-#'   \code{\link{projectDBSU}} for DBSU projection,
-#'   \code{\link{projectDBIB}} for DBIB projection,
-#'   \code{\link{projectDBMB}} for DBMB projection,
-#'   \code{\link{projectDBWB}} for DBWB projection
-#' @export
 projectDBAB <- function(inPolicy, oneFundScen, dT = 1 / 12, pq, p, df){
   # projection will always start from the current date for numStep periods
   numStep <- dim(oneFundScen)[1]
@@ -1583,24 +1326,6 @@ projectDBAB <- function(inPolicy, oneFundScen, dT = 1 / 12, pq, p, df){
 }
 
 # ------------------------------------------------------------------------------
-#' Project a DBIB policy whose attributes are specified in inPolicy based on
-#' one fund scenario oneFundScen and steplength dT.
-#' @inheritParams projectDBRP
-#' @return A list of doubles of death benefit, living benefit, risk charge,
-#'   and a vector of updated 45 attributes of a VA policy.
-#' @examples
-#' fundScen <- genFundScen(fundMap, indexScen)
-#' mortFactors <- calcMortFactors(testDBIB, mortTable, dT = 1 / 12)
-#' pq <- mortFactors[, "pq"]
-#' p <- mortFactors[, "p"]
-#' projectDBIB(testDBIB, fundScen[1, 1:163, ], 1/12, pq, p, cForwardCurve)
-#' @seealso \code{\link{projectDBRP}} for DBRP projection,
-#'   \code{\link{projectDBRU}} for DBRU projection,
-#'   \code{\link{projectDBSU}} for DBSU projection,
-#'   \code{\link{projectDBAB}} for DBAB projection,
-#'   \code{\link{projectDBMB}} for DBMB projection,
-#'   \code{\link{projectDBWB}} for DBWB projection
-#' @export
 projectDBIB <- function(inPolicy, oneFundScen, dT = 1 / 12, pq, p, df){
   # projection will always start from the current date for numStep periods
   numStep <- dim(oneFundScen)[1]
@@ -1695,24 +1420,6 @@ projectDBIB <- function(inPolicy, oneFundScen, dT = 1 / 12, pq, p, df){
 }
 
 # ------------------------------------------------------------------------------
-#' Project a DBMB policy whose attributes are specified in inPolicy based on
-#' one fund scenario oneFundScen and steplength dT.
-#' @inheritParams projectDBRP
-#' @return A list of doubles of death benefit, living benefit, risk charge,
-#'   and a vector of updated 45 attributes of a VA policy.
-#' @examples
-#' fundScen <- genFundScen(fundMap, indexScen)
-#' mortFactors <- calcMortFactors(testDBMB, mortTable, dT = 1 / 12)
-#' pq <- mortFactors[, "pq"]
-#' p <- mortFactors[, "p"]
-#' projectDBMB(testDBMB, fundScen[1, 1:163, ], 1/12, pq, p, cForwardCurve)
-#' @seealso \code{\link{projectDBRP}} for DBRP projection,
-#'   \code{\link{projectDBRU}} for DBRU projection,
-#'   \code{\link{projectDBSU}} for DBSU projection,
-#'   \code{\link{projectDBAB}} for DBAB projection,
-#'   \code{\link{projectDBIB}} for DBIB projection,
-#'   \code{\link{projectDBWB}} for DBWB projection
-#' @export
 projectDBMB <- function(inPolicy, oneFundScen, dT = 1 / 12, pq, p, df){
   # projection will always start from the current date for numStep periods
   numStep <- dim(oneFundScen)[1]
@@ -1778,24 +1485,6 @@ projectDBMB <- function(inPolicy, oneFundScen, dT = 1 / 12, pq, p, df){
 }
 
 # ------------------------------------------------------------------------------
-#' Project a DBWB policy whose attributes are specified in inPolicy based on
-#' one fund scenario oneFundScen and steplength dT.
-#' @inheritParams projectDBRP
-#' @return A list of doubles of death benefit, living benefit, risk charge,
-#'   and a vector of updated 45 attributes of a VA policy.
-#' @examples
-#' fundScen <- genFundScen(fundMap, indexScen)
-#' mortFactors <- calcMortFactors(testDBWB, mortTable, dT = 1 / 12)
-#' pq <- mortFactors[, "pq"]
-#' p <- mortFactors[, "p"]
-#' projectDBWB(testDBWB, fundScen[1, 1:163, ], 1/12, pq, p, cForwardCurve)
-#' @seealso \code{\link{projectDBRP}} for DBRP projection,
-#'   \code{\link{projectDBRU}} for DBRU projection,
-#'   \code{\link{projectDBSU}} for DBSU projection,
-#'   \code{\link{projectDBAB}} for DBAB projection,
-#'   \code{\link{projectDBIB}} for DBIB projection,
-#'   \code{\link{projectDBMB}} for DBMB projection
-#' @export
 projectDBWB <- function(inPolicy, oneFundScen, dT = 1 / 12, pq, p, df){
   # projection will always start from the current date for numStep periods
   numStep <- dim(oneFundScen)[1]
@@ -1878,19 +1567,19 @@ projectDBWB <- function(inPolicy, oneFundScen, dT = 1 / 12, pq, p, df){
 #' discount rate for each period is specified in df.
 #' @param inPolicy A vector containing 45 attributes of a VA policy,
 #'   usually a row of a VA portfolio dataframe.
-#' @param mortTable A dataframe with three columns of mortality table.
+#' @param mortTable A dataframe with three columns of doubles representing the
+#'   mortality table.
 #' @param fundScen A numScen-by-numStep-by-numFund array of doubles of
-#'   return factors (i.e., exp(mu\_t dt)) in each period.
-#' @param dT A double of stepsize in years; dT = 1/12 would be monthly.
-#' @param df A vector of risk-free discount rates of different tenor
+#'   return factors (i.e., exp(mu_t dt)) in each period.
+#' @param dT A double of stepsize in years; dT = 1 / 12 would be monthly.
+#' @param df A vector of doubles of risk-free discount rates of different tenor
 #'   (not forward rates), should have length being numStep.
-#' @return A list of doubles of policyValue, the average discounted payoff
-#'   of the VA, and riskCharge, the average discounted risk charges.
+#' @return Outputs a list of doubles of policyValue, the average discounted
+#'   payoff of the VA, and riskCharge, the average discounted risk charges.
 #' @examples
 #' fundScen <- genFundScen(fundMap, indexScen)[1, , ]
-#' valuateOnePolicy(testDBRP, mortTable, fundScen, 1 / 12, cForwardCurve)
-#' @section Remark:
-#' We use 1 scenarios from 100 simulated scenarios for illustration purposes
+#' exPolicy <- VAPort[1, ]
+#' valuateOnePolicy(exPolicy, mortTable, fundScen, 1 / 12, cForwardCurve)
 #' @export
 valuateOnePolicy <- function(inPolicy, mortTable, fundScen, dT, df){
   if (inPolicy[1, "matDate"] <= inPolicy[1, "currentDate"]) {
@@ -1963,39 +1652,42 @@ valuateOnePolicy <- function(inPolicy, mortTable, fundScen, dT, df){
 #' flexible user-defined projection function.
 #' @param inPolicy A vector containing 45 attributes of a VA policy,
 #'   usually a row of a VA portfolio dataframe.
-#' @param mortTable A dataframe with three columns of mortality table.
+#' @param mortTable A dataframe with three columns of doubles representing the
+#'   mortality table.
 #' @param fundScen A numScen-by-numStep-by-numFund array of doubles of
-#'   return factors (i.e., exp(mu\_t dt)) in each period.
-#' @param scenDates A vector containing dates corresponding to each period in
-#'   fundScen.
-#' @param dT A double of stepsize in years; dT = 1/12 would be monthly.
+#'   return factors (i.e., exp(mu_t dt)) in each period.
+#' @param scenDates A vector containing strings in the format of "YYYY-MM-DD"
+#'   of dates corresponding to each period in fundScen.
+#' @param dT A double of stepsize in years; dT = 1 / 12 would be monthly.
 #' @param targetDate A string in the format of "YYYY-MM-DD" of valuation date
 #'   of the portfolio.
-#' @param df A vector of risk-free discount rates of different tenor
+#' @param df A vector of doubles of risk-free discount rates of different tenor
 #'   (not forward rates), should have length being numStep.
-#' @return A vector containing 45 attributes of a VA policy, where currentDate,
-#'   gbAmt, GMWBbalance, withdrawal, & fundValue could be updated
+#' @return Outputs a vector containing 45 attributes of a VA policy, where
+#'   currentDate, gbAmt, GMWBbalance, withdrawal, & fundValue could be updated
 #'   as a result of aging. Usually a row of a VA portfolio dataframe.
 #' @examples
+#' exPolicy <- VAPort[1, ]
 #' targetDate <- "2016-01-01"
 #' histFundScen <- genFundScen(fundMap, histIdxScen)
-#' ageOnePolicy(testDBRP, mortTable, histFundScen, histDates, dT = 1 / 12,
+#' ageOnePolicy(exPolicy, mortTable, histFundScen, histDates, dT = 1 / 12,
 #' targetDate, cForwardCurve)
 #' \dontrun{
 #' targetDate <- "2001-01-01"
 #' histFundScen <- genFundScen(fundMap, histIdxScen)
-#' ageOnePolicy(testDBRP, mortTable, histFundScen, histDates, dT = 1 / 12,
+#' ageOnePolicy(exPolicy, mortTable, histFundScen, histDates, dT = 1 / 12,
 #' targetDate, cForwardCurve)
 #' }
 #' \dontrun{
-#' testDBRP[1, c("currentDate", "issueDate")] <- c("2001-01-01", "2001-01-01")
+#' exPolicy <- VAPort[1, ]
+#' exPolicy[1, c("currentDate", "issueDate")] <- c("2001-01-01", "2001-01-01")
 #' histFundScen <- genFundScen(fundMap, histIdxScen)
-#' ageOnePolicy(testDBRP, mortTable, histFundScen, histDates, dT = 1 / 12,
+#' ageOnePolicy(exPolicy, mortTable, histFundScen, histDates, dT = 1 / 12,
 #' targetDate, cForwardCurve)
 #' }
-#' @section Warning:
+#' @section Note:
 #' Target date MUST be PRIOR to the last date of historical scenario date,
-#' Current date MUST be LATER than the first date of historical scenario date
+#' Current date MUST be LATER than the first date of historical scenario date.
 #' @export
 ageOnePolicy <- function(inPolicy, mortTable, fundScen, scenDates,
                          dT = 1 / 12, targetDate, df){
@@ -2059,22 +1751,20 @@ historical scenario date 2001-08-01"
 #' is specified in df.
 #' @param inPortfolio A dataframe containing numPolicy rows and 45 attributes
 #'   of each VA policy.
-#' @param mortTable A dataframe with three columns of mortality table.
+#' @param mortTable A dataframe with three columns of doubles representing the
+#'   mortality table.
 #' @param fundScen A numScen-by-numStep-by-numFund array of doubles of
-#'   return factors (i.e., exp(mu\_t dt)) in each period.
-#' @param dT A double of stepsize in years; dT = 1/12 would be monthly.
-#' @param df A vector of risk-free discount rates of different tenor
+#'   return factors (i.e., exp(mu_t dt)) in each period.
+#' @param dT A double of stepsize in years; dT = 1 / 12 would be monthly.
+#' @param df A vector of doubles of risk-free discount rates of different tenor
 #'   (not forward rates), should have length being numStep.
-#' @return A list of doubles of portVal, the sum of average discounted payoff
-#'   of the VAs in inPortfolio, portRC, the sum of average discounted risk
-#'   charges of the VAs in inPortfolio, and vectors of doubles of these average
-#'   discounted values for each policy.
+#' @return Outputs a list of doubles of portVal, the sum of average discounted
+#'   payoff of the VAs in inPortfolio, portRC, the sum of average discounted
+#'   risk charges of the VAs in inPortfolio, and vectors of doubles of these
+#'   average discounted values for each policy.
 #' @examples
 #' fundScen <- genFundScen(fundMap, indexScen)[1, , ]
 #' valuatePortfolio(VAPort[1:2, ], mortTable, fundScen, 1 / 12, cForwardCurve)
-#' @section Remark:
-#' We use a portfolio of 2 contracts with 1 scenarios in the example
-#' for illustration purposes.
 #' @export
 valuatePortfolio <- function(inPortfolio, mortTable, fundScen, dT, df){
   numPolicy <- nrow(inPortfolio)
@@ -2098,19 +1788,20 @@ valuatePortfolio <- function(inPortfolio, mortTable, fundScen, dT, df){
 #' user-defined projection function.
 #' @param inPortfolio A dataframe containing numPolicy rows and 45 attributes
 #'   of each VA policy.
-#' @param mortTable A dataframe with three columns of mortality table.
+#' @param mortTable A dataframe with three columns of doubles representing the
+#'   mortality table.
 #' @param fundScen A numScen-by-numStep-by-numFund array of doubles of
-#'   return factors (i.e., exp(mu\_t dt)) in each period.
-#' @param scenDates A vector containing dates corresponding to each period in
-#'   fundScen.
-#' @param dT A double of stepsize in years; dT = 1/12 would be monthly.
+#'   return factors (i.e., exp(mu_t dt)) in each period.
+#' @param scenDates A vector containing strings in the format of "YYYY-MM-DD"
+#'   of dates corresponding to each period in fundScen.
+#' @param dT A double of stepsize in years; dT = 1 / 12 would be monthly.
 #' @param targetDate A string in the format of "YYYY-MM-DD" of valuation date of
 #'   the portfolio.
-#' @param df A vector of risk-free discount rates of different tenor
+#' @param df A vector of doubles of risk-free discount rates of different tenor
 #'   (not forward rates), should have length being numStep.
-#' @return A dataframe containing numPolicy rows and 45 attributes of each VA
-#'   policy, where currentDate, gbAmt, GMWBbalance, withdrawal, & fundValue
-#'   of each policy could be updated as a result of aging.
+#' @return Outputs a dataframe containing numPolicy rows and 45 attributes of
+#'   each VA policy, where currentDate, gbAmt, GMWBbalance, withdrawal,
+#'   & fundValue of each policy could be updated as a result of aging.
 #' @examples
 #' targetDate <- "2016-01-01"
 #' histFundScen <- genFundScen(fundMap, histIdxScen)
@@ -2128,11 +1819,9 @@ valuatePortfolio <- function(inPortfolio, mortTable, fundScen, dT, df){
 #' agePortfolio(VAPort, mortTable, histFundScen, histDates, dT = 1 / 12,
 #' targetDate, cForwardCurve)
 #' }
-#' @section Warning:
+#' @section Note:
 #' Target date MUST be PRIOR to the last date of historical scenario date,
-#' Current date MUST be LATER than the first date of historical scenario date
-#' @section Remark:
-#' We use a portfolio of 2 contracts in the example for illustration purposes.
+#' Current date MUST be LATER than the first date of historical scenario date.
 #' @export
 agePortfolio <- function(inPortfolio, mortTable, fundScen, scenDates,
                          dT = 1 / 12, targetDate, df){
